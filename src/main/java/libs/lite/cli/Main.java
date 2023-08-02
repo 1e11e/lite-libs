@@ -1,6 +1,5 @@
-package libs.lite;
+package libs.lite.cli;
 
-import libs.lite.cli.Cli;
 import java.util.List;
 
 /*

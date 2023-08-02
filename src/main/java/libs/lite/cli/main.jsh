@@ -1,4 +1,4 @@
-#!/usr/bin/env -S java --source 19
+#!/usr/bin/env -S java --source 17
 
 import java.util.*;
 import java.util.function.Function;
@@ -40,7 +40,7 @@ class Main {
     }
 }
 
-public class Cli {
+class Cli {
     public enum Arity { ZERO, ONE, ZERO_ONE, MANY }
     public record Option(char shortName, String name, Arity arity, String help, String... regex) {
         public String getId() {
