@@ -21,7 +21,7 @@ No special string syntax or annotations to learn.
 
 ### No built-in support for the following, which must be handled manually
 - Required parameters and dependencies between different options
-- Types other than (List of) String and Boolean, but with a regex in place i.e. parseInt() can safely be done
+- Types other than (List of) String and Boolean, but with a regex in place i.e. `parseInt()` can safely be done
 - Arity other than 0 (bool), 1 (key-value), 0..1 (optional option parameter) and 1..n (list)
 - The usage string
 
@@ -39,9 +39,9 @@ No special string syntax or annotations to learn.
 
 EXAMPLE
 -------
-A simple example of a CLI with positional parameters and options. Options can't be named 'h' or "--help" since that
-is a built in option. An option without a short name is just a blank char ' ', and an option without a long name is
-just an empty string "":
+A simple example of a CLI with positional parameters and options. Options can't be named `'h'` or `"--help"` since that
+is a built in option. An option without a short name is just a blank char, and an option without a long name is
+just an empty string:
 ```java
 public static void main(String[] args) {
     var cli = new Cli(List.of(args), """
@@ -145,12 +145,12 @@ The format of the help parameter is up to you, and completely optional to use as
     GIT style:  "--key=<value>"
     CURL style: "--key <value>",  or any other way you want
 
-Short options are a single char so the dash is automatically prepended: `'b'` becomes `"-b"`. It means you can't have a
-short option like `-cp` for classpath since it would be treated as clustered short options. If no short option is
-wanted, set it to a blank char ' ' (since it is a char it can't be empty '' or null).
+Short options are a single char so the dash is automatically prepended, i.e. `'b'` becomes `"-b"`. It means you can't
+have a short option like `-cp` for classpath since it would be treated as clustered short options. If no short option is
+wanted, set it to a blank char `' '` (since it is a char it can't be empty or null).
 
-If no long option name is wanted, the field can either be empty "" or used for short option help. Anything not
-starting with "--" can be written and will be displayed instead of the short option name, so make sure to include it.
+If no long option name is wanted, the field can either be an empty string or used for short option help. Anything not
+starting with `--` can be written and will be displayed instead of the short option name, so make sure to include it.
 
 Example, only a short option and no long option. The following will display `-d<1..3>` in the help:
    ```java

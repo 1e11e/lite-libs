@@ -14,9 +14,9 @@ While it is quite rich, there are some basics missing. Lite Libs makes it easier
 since its classes are so small they can just be pasted into a script.
 
 The following missing stdlib functionality is currently offered by Lite Libs:
-* GNU/POSIX style command line parser (79 lines)
-* JSON parser (59 lines)
-* YAML parser (99 lines)
+* [GNU/POSIX style command line parser](src/main/java/libs/lite/cli) (79 lines)
+* [JSON parser](src/main/java/libs/lite/jsonparser) (59 lines)
+* [YAML parser](src/main/java/libs/lite/yamlparser) (99 lines)
 
 Two ways of java scripting
 --------------------------
@@ -56,7 +56,7 @@ $ java Script.java config.json
 - Clunky way of running it
 
 ### 2. Java shell scripting
-Same example as above but two things have changed:
+The second way is almost the same as the first but two things have changed:
 - The package is replaced with a shebang at the first line
 - The filename is changed to anything but `*.java` since the `#!` is not valid
   java (it can be named without an extension or something like `.jsh`)
@@ -81,10 +81,14 @@ class JsonParser {
     ...
 }
 ```
-Run it like this (make sure it is executable first: `chmod +x script.jsh`)
-```
-$ ./script.jsh config.json
-```
+Make sure it is executable first:
+
+    $ chmod +x script.jsh
+
+Run it like this:
+
+    $ ./script.jsh config.json
+
 **Pros**
 - Much more elegant way of running it
 - You have control over the java flags, like `--class-path` and `--enable-preview`
