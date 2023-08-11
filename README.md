@@ -8,7 +8,7 @@ way since Java 11 to make limited source code java programs like how bash-,
 perl- and python-scripts work. So if you have a java project, you may not need
 to add a huge dependency to python just to have some git-hooks or init-scripts.
 
-Unfortunately it is a cumbersome exercise to pull in external jars into a
+Unfortunately it is a cumbersome process to use external jars in a
 java script, so for simplicity you are stuck with the java standard library.
 While it is quite rich, there are some basics missing. Lite Libs makes it easier
 since its classes are so small they can just be pasted into a script.
@@ -30,7 +30,6 @@ package org.example;
 
 // <stdlib imports hidden>
 
-// First class name must match filename: Script.java
 class Script {
     public static void main(String[] args) throws IOException {
         var configJson = new String(Files.readAllBytes(Path.of(args[0])));
@@ -59,14 +58,13 @@ $ java Script.java config.json
 The second way is almost the same as the first but two things have changed:
 - The package is replaced with a shebang at the first line
 - The filename is changed to anything but `*.java` since the `#!` is not valid
-  java (it can be named without an extension or something like `.jsh`)
+  java (it can be without an extension or something like `.jsh`)
 
 ```java
 #!/usr/bin/env -S java --source 17
 
 // <stdlib imports hidden>
 
-// First class name does not have to match filename
 class Script {
     public static void main(String[] args) throws IOException {
         var configJson = new String(Files.readAllBytes(Path.of(args[0])));
@@ -81,11 +79,11 @@ class JsonParser {
     ...
 }
 ```
-Make sure it is executable first:
+Make sure it is executable first
 
     $ chmod +x script.jsh
 
-Run it like this:
+Run it like this
 
     $ ./script.jsh config.json
 
@@ -107,7 +105,7 @@ become an overwhelming majority of a script as no one wants to paste a 1000 line
 class into their 100 line script — and as a fun exercise in making java (known
 for its verbosity) short and "script-like".
 
-Packing so much functionality into as few lines as possible effects readability
+Packing so much functionality into as few lines as possible affects readability
 so just think of it as ascii jar snippets and suppress your clean code review
 instincts, or simply reformat the code to your taste. At least there are plenty
 of unit tests.
@@ -124,8 +122,8 @@ an issue, just add a dependency to something else since it is likely better.
 The single-file source-code launcher capability was added to lower the threshold
 for beginners trying to get their first java programs running,
 but at the same time a fast and statically typed scripting language was born.
-Java has also improved significantly over the last decade in case you didn't
-notice and will probably improve more in the scripting area as well.
+Java has also improved significantly over the last releases and will probably
+improve more in the scripting area as well.
 
 The concept is rather new and I have only made a few such scripts. But on every
 occasion I needed to get commandline arguments in a more sophisticated way than

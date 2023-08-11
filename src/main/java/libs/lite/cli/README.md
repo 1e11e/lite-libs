@@ -37,7 +37,7 @@ No special string syntax or annotations to learn.
          .filter(kv -> kv.getValue() != null).forEach(kv -> opts.putIfAbsent(kv.getKey(), kv.getValue()));
   ```
 
-EXAMPLE
+Example
 -------
 A simple example of a CLI with positional parameters and options. Options can't be named `'h'` or `"--help"` since that
 is a built in option. An option without a short name is just a blank char, and an option without a long name is
@@ -90,7 +90,7 @@ Running it with `--help` prints the help to stdout:
 
 Note the built in `-h`/`--help` option last.
 
-CONSTRUCTOR
+Constructor
 -----------
 There are three signatures for the constructor
 
@@ -124,7 +124,7 @@ There are three signatures for the constructor
     }
     ```
 
-OPTIONS
+Options
 -------
 All options are optional, so the arity is only checked if an option is used. Examples of arity:
    ```java
@@ -161,7 +161,7 @@ Example, only a long option and no short option. Note how the regex validates wh
    new Cli.Option(' ', "--debug[=FINE|INFO|WARN]", Cli.Arity.ZERO_ONE, "Debug level", "FINE|INFO|WARN", "Bad level")
    ```
 
-GETTING PARAMETERS
+Getting parameters
 ------------------
 Assume the following commandline arguments:
 
@@ -198,13 +198,13 @@ an option, valid or not, so better to give an error than silently consuming it.
     ./script --key --bool               # will give an error, "Expected 1 arg: --key"
     ./script --key=--bool               # okay
 
-OPTIONAL OPTION PARAMETER
--------------------------
+Optional option parameters
+--------------------------
 Optional option parameters (arity ZERO_ONE) have three states, unlike other arities that only have two states:
 
-    ./script --zero-or-one param                          # 1) Option provided with parameter, like ONE and MANY
-    ./script --zero-or-one                                # 2) Option provided without parameter, like ZERO
-    ./script                                              # 3) No option provided
+    ./script --zero-or-one param        # 1) Option provided with parameter, like ONE and MANY
+    ./script --zero-or-one              # 2) Option provided without parameter, like ZERO
+    ./script                            # 3) No option provided
 
 An example of how to get the three:
    ```java
@@ -219,7 +219,7 @@ Note how no long option name is used, so it is short option help instead. Get th
    int verbosityLevel = cli.has("-v") ? cli.get("-v", "").length() + 1 : 0;      // 0-3 for none, -v, -vv, -vvv
    ```
 
-POSITIONAL PARAMETERS
+Positional parameters
 ---------------------
 Any arguments that are not options or option parameters will be positional parameters. Options and positional params
 can be mixed. Positional params always have the arity MANY so you have to manually check the number of parameters:
@@ -237,7 +237,7 @@ not allowed):
     ./pos --zero-one=param1 param2          # only param2 is a positional parameter
     ./pos --zero-one=param1                 # no positional parameters, which is okay
 
-SUBCOMMANDS
+Subcommands
 -----------
 Anything following a subcommand is a subcommand parameter. If none of the subcommands appear, but parameters that do
 not belong to any option exist, an error is printed. Subcommands always have the arity MANY and the normal use case
@@ -274,14 +274,14 @@ not allowed):
     ./sub --one param1 param2               # param2 is an illegal subcommand, so an error is printed
     ./sub --one param1                      # param1 is --one parameter and no subcommand provided, which is okay
 
-VALIDATIONS
+Validations
 -----------
 Passing an option that is not declared will print an error. Passing an option like `--bool=y` or `--key=v1 --key=v2`
 will also print an error since arity is wrong. If a regex is used and doesn't match, the optional error message or
 the regex is printed as an error. 
 
 You can also do manual checks and call `cli.printError("Your own error message")`, which
-will print to stderr with an exit code. Or use `cli.printHelp()` which will only print help to stdout.
+will print to stderr and return an exit code. Or use `cli.printHelp()` which will only print help to stdout.
 
 Notes
 -----
