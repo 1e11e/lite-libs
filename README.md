@@ -18,6 +18,8 @@ The following missing stdlib functionality is currently offered by Lite Libs:
 * [JSON parser](src/main/java/libs/lite/jsonparser) (59 lines)
 * [YAML parser](src/main/java/libs/lite/yamlparser) (99 lines)
 
+And some [shell helpers](src/main/java/libs/lite/shellhelpers) including ANSI colors.
+
 Two ways of java scripting
 --------------------------
 Example that reads a json file and prints a value. It is basically a normal java
