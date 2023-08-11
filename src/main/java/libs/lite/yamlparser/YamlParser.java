@@ -101,7 +101,7 @@ class YamlParser {
 
     private Object getStringOrDouble(String str) {
         try {
-            return str.matches(".*\\d.*") ? Double.valueOf(str) : str;
+            return str.matches("[-+.0-9eE]+") ? Double.valueOf(str) : str;
         } catch (NumberFormatException nfe) {
             return str;
         }

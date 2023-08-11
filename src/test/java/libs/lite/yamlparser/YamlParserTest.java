@@ -291,7 +291,7 @@ public class YamlParserTest {
                 - 1e1
                 - +1.
                 """);
-        assertEquals(List.of(-.1, -.1e2, 0.0, .1, 1., 1.2e1, 23.4, 0.0, 1e1, 1.0), yp.get());
+        assertEquals(List.of(-.1, -.1e2, 0.0, .1, 1., 1.2e1, 23.4, 0.0, 1E1, 1.0), yp.get());
     }
 
     @Test
@@ -301,8 +301,9 @@ public class YamlParserTest {
                 - -Infinity
                 - NaN
                 - -NaN
+                - 1e11e
                 """);
-        assertEquals(List.of("Infinity", "-Infinity", "NaN", "-NaN"), yp.get());
+        assertEquals(List.of("Infinity", "-Infinity", "NaN", "-NaN", "1e11e"), yp.get());
     }
 
     @Test
