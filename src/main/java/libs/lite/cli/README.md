@@ -57,7 +57,7 @@ public static void main(String[] args) {
     if (cli.getAll("FILES").size() < 2)                                    // manual check of required arguments
         System.exit(cli.printError("Two or more files required"));
 
-    String watermark = cli.getAll("FILES").remove(0);                      // first positional parameter
+    String watermark = cli.getAll("FILES").removeFirst();                  // first positional parameter
     int opacity = Integer.parseInt(cli.get("--opacity", "50"));            // default opacity is 50 if missing
     String bak = cli.has("--backup") ? cli.get("--backup", ".bak") : "";   // optional option param: <ext>, ".bak" or ""
 
@@ -68,7 +68,7 @@ public static void main(String[] args) {
 ```
 Running it with the following arguments will print an error to stderr since opacity is out of range, and then exit:
 
-    $ ./watermark -po 128 --skip=.gif,.jpg --backup=.orig logo.png overview.png product.png
+    $ ./watermark -po 128 --skip=.gif,.jpg --backup=.orig logo.png overview.png product*
 
     Expected 0-100: --opacity=128
     Try --help for more

@@ -1,4 +1,4 @@
-#!/usr/bin/env -S java --source 17
+#!/usr/bin/env -S java --source 21
 
 import java.util.*;
 import java.util.function.Function;
@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 /*
  * This is a small example of how to use the command line option parser of Lite Libs.
  * Since this is a script (note the shebang at the top), the class is pasted at the end.
+ * Run it with: ./main.jsh --help
  * IntelliJ may wrongly show some wiggly red lines that aren't errors, it still works.
  */
 class Main {
@@ -26,7 +27,7 @@ class Main {
         if (cli.getAll("FILES").size() < 2)
             System.exit(cli.printError("Two or more files required"));
 
-        String watermark = cli.getAll("FILES").remove(0);
+        String watermark = cli.getAll("FILES").removeFirst();
         int opacity = Integer.parseInt(cli.get("--opacity", "50"));
         String bak = cli.has("--backup") ? cli.get("--backup", ".bak") : "";
 

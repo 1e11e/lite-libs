@@ -46,5 +46,5 @@ Any JSON object can be top level:
    ```
 Notes
 -----
-The class is 59 lines and golfed to the edge of readability, ready to be pasted into a java shell script.
-If you can trust the input to be error free you can remove all the if-throws and try-catch to shave 11 more lines.
+The class is 49 lines and golfed to the edge of readability, ready to be pasted into a java shell script.
+If you can trust the input to be error free you can remove all the if-throws and try-catch to shave 10 more lines.

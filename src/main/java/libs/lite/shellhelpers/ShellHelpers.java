@@ -1,27 +1,38 @@
 package libs.lite.shellhelpers;
 
+import javax.net.ssl.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Misc helpers to use in java shell scripts.
+ * Misc helpers to paste into java shell scripts.
  */
 class ShellHelpers {
     static final Logger LOG = getLogger();
 
     public static void main(String... args) throws IOException, InterruptedException {
-        System.out.println("hello " +  Ansi.GRN + "green " + Ansi.UNDERLINE + "world" + Ansi.RESET);
+        var gitIgnore = httpGet("https://raw.githubusercontent.com/1e11e/lite-libs/refs/heads/main/.gitignore");
+        System.out.println("httpGet():\n" + gitIgnore);
+
+        System.out.println("Ansi: hello " +  Ansi.GRN + "green " + Ansi.UNDERLINE + "world" + Ansi.RESET);
 
         LOG.setLevel(Level.ALL);
-        LOG.info("some info here");
-        LOG.config(() -> "configuration info");
+        LOG.info("Logger example, some info here");
+        LOG.config(() -> "Logger lambda example, configuration info");
 
-        exec(false, ".", "ls");
         var output = exec(true, ".", "ls");
-        System.out.println(">>> " + output.stdout.lines().count() + " lines");
+        System.out.println("exec(): " + output.stdout.lines().count() + " lines");
+        // echo to stdout, no capture
+        exec(false, ".", "ls");
     }
 
     /**
@@ -51,6 +62,37 @@ class ShellHelpers {
                 new String(proc.getInputStream().readAllBytes()), new String(proc.getErrorStream().readAllBytes()));
     }
     record Output(int exitcode, String stdout, String stderr) {}
+
+    /**
+     * Simple http GET.
+     * @param url
+     * @return Response as string
+     */
+    static String httpGet(String url) {
+        try (var inputStream = new URI(url).toURL().openStream()) {
+            return new String(inputStream.readAllBytes());
+        } catch (URISyntaxException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Same as --insecure for curl
+     */
+    static void noCheckCertificate() {
+        try {
+            var sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, new TrustManager[] { new X509TrustManager() {
+                        public java.security.cert.X509Certificate[] getAcceptedIssuers() { return null; }
+                        public void checkClientTrusted(X509Certificate[] certs, String authType) { }
+                        public void checkServerTrusted(X509Certificate[] certs, String authType) { }
+                    }}, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);
+        } catch (NoSuchAlgorithmException | KeyManagementException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 /**

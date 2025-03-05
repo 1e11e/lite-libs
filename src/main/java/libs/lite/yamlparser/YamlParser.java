@@ -17,7 +17,7 @@ class YamlParser {
         final String regex;
         Yml(String regex) { this.regex = regex; }
     }
-    private final Object yamlObject;
+    private final Object liteLibsYamlObject;
     private final LinkedList<Token> tokens;
     private final Map<String, Object> mapObj = Map.of("true", true, "false", false, "{}", Map.of(), "[]", List.of());
     private final LinkedList<Integer> indentStack = new LinkedList<>(List.of(0));
@@ -37,14 +37,14 @@ class YamlParser {
                 case "TAB,SEQ" -> tokens.set(i - 1, new Token(Yml.TAB, tokens.get(i - 1).val + " "));
                 case "TAB,TAB" -> tokens.remove(i--);
             }
-        yamlObject = parseYaml();
+        liteLibsYamlObject = parseYaml();
         if (!tokens.isEmpty())
             throw new RuntimeException("Expected end of yaml, found: %.40s".formatted(tokens));
     }
 
     @SuppressWarnings("unchecked")
     public <T> T get(Object... keysAndIndexes) {
-        return (T) Stream.of(keysAndIndexes).reduce(yamlObject, (yamlObj, key) ->
+        return (T) Stream.of(keysAndIndexes).reduce(liteLibsYamlObject, (yamlObj, key) ->
                 key instanceof Integer index ? ((List<?>) yamlObj).get(index) : ((Map<?, ?>) yamlObj).get(key));
     }
 

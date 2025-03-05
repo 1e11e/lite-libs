@@ -23,7 +23,7 @@ public class Main {
         if (cli.getAll("FILES").size() < 2)
             System.exit(cli.printError("Two or more files required"));
 
-        String watermark = cli.getAll("FILES").remove(0);
+        String watermark = cli.getAll("FILES").removeFirst();
         int opacity = Integer.parseInt(cli.get("--opacity", "50"));
         String bak = cli.has("--backup") ? cli.get("--backup", ".bak") : "";
 

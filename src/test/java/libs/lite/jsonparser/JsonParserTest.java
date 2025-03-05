@@ -210,9 +210,9 @@ public class JsonParserTest {
         var e1 = assertThrows(RuntimeException.class, () -> new JsonParser(null));
         var e2 = assertThrows(RuntimeException.class, () -> new JsonParser(""));
         var e3 = assertThrows(RuntimeException.class, () -> new JsonParser(":"));
-        assertEquals("null near end", e1.getMessage());
-        assertEquals("empty String near end", e2.getMessage());
-        assertEquals("For input string: \":\" near end", e3.getMessage());
+        assertEquals("Json error null at end", e1.getMessage());
+        assertEquals("Json error null at end", e2.getMessage());
+        assertEquals("Json error For input string: \":\" at end", e3.getMessage());
     }
 
     @Test
@@ -222,18 +222,18 @@ public class JsonParserTest {
         var e3 = assertThrows(RuntimeException.class, () -> new JsonParser("[123, 8.8.8.8, 456]"));
         var e4 = assertThrows(RuntimeException.class, () -> new JsonParser("NaN"));
         var e5 = assertThrows(RuntimeException.class, () -> new JsonParser("Infinity"));
-        assertEquals("For input string: \"unknown\" near ,", e1.getMessage());
-        assertEquals("For input string: \"\"wrong'\" near ,", e2.getMessage());
-        assertEquals("multiple points near ,", e3.getMessage());
-        assertEquals("For input string: \"nan\" near end", e4.getMessage());
-        assertEquals("For input string: \"infinity\" near end", e5.getMessage());
+        assertEquals("Json error For input string: \"unknown\",", e1.getMessage());
+        assertEquals("Json error For input string: \"\"wrong'\",", e2.getMessage());
+        assertEquals("Json error multiple points,", e3.getMessage());
+        assertEquals("Json error For input string: \"nan\" at end", e4.getMessage());
+        assertEquals("Json error For input string: \"infinity\" at end", e5.getMessage());
     }
 
     @Test
     public void testInvalidMissingOpeningBracket() {
         var e1 = assertThrows(RuntimeException.class, () -> new JsonParser("1, 2, 3]"));
         var e2 = assertThrows(RuntimeException.class, () -> new JsonParser("{ \"a\": 1, \"b\": 2 } ]"));
-        assertEquals("Expected end of json, found: , 2 , 3 ]", e1.getMessage());
+        assertEquals("Expected end of json, found: ,2,3]", e1.getMessage());
         assertEquals("Expected end of json, found: ]", e2.getMessage());
     }
 
@@ -243,10 +243,10 @@ public class JsonParserTest {
         var e2 = assertThrows(RuntimeException.class, () -> new JsonParser("[1, 2, 3"));
         var e3 = assertThrows(RuntimeException.class, () -> new JsonParser("[1, [2, 3, [4, 5]]"));
         var e4 = assertThrows(RuntimeException.class, () -> new JsonParser("{ \"a\": [1, 2, \"b\": [3, 4] }"));
-        assertEquals("List error after [ near end", e1.getMessage());
-        assertEquals("List error after 3 near end", e2.getMessage());
-        assertEquals("List error after [2, 3, [4, 5]] near end", e3.getMessage());
-        assertEquals("List error after b near :", e4.getMessage());
+        assertEquals("Json error in list near [ at end", e1.getMessage());
+        assertEquals("Json error in list near 3 at end", e2.getMessage());
+        assertEquals("Json error in list near [2, 3, [4, 5]] at end", e3.getMessage());
+        assertEquals("Json error in list near b:", e4.getMessage());
     }
 
     @Test
@@ -254,9 +254,9 @@ public class JsonParserTest {
         var e1 = assertThrows(RuntimeException.class, () -> new JsonParser("\"a\": 1, \"b\": 2 }"));
         var e2 = assertThrows(RuntimeException.class, () -> new JsonParser("{ \"x\": \"a\": 1 } }"));
         var e3 = assertThrows(RuntimeException.class, () -> new JsonParser("[ { \"a\": 1 }, \"b\": 2 } ]"));
-        assertEquals("Expected end of json, found: : 1 , \"b\" : 2 }", e1.getMessage());
-        assertEquals("Map error after \"x\" near :", e2.getMessage());
-        assertEquals("List error after b near :", e3.getMessage());
+        assertEquals("Expected end of json, found: :1,\"b\":2}", e1.getMessage());
+        assertEquals("Json error in map \"x\":\"a\":", e2.getMessage());
+        assertEquals("Json error in list near b:", e3.getMessage()); // todo
     }
 
     @Test
@@ -265,10 +265,10 @@ public class JsonParserTest {
         var e2 = assertThrows(RuntimeException.class, () -> new JsonParser("{ \"a\": 1, \"b\": 2"));
         var e3 = assertThrows(RuntimeException.class, () -> new JsonParser("{ \"x\": { \"a\": 1, \"b\": 2 }"));
         var e4 = assertThrows(RuntimeException.class, () -> new JsonParser("{ \"x\": { \"a\": 1 }, \"b\": 2"));
-        assertEquals("Map error after { near end", e1.getMessage());
-        assertEquals("Map error after \"b\" near end", e2.getMessage());
-        assertEquals("null near end", e3.getMessage());
-        assertEquals("Map error after \"b\" near end", e4.getMessage());
+        assertEquals("Json error null at end", e1.getMessage());
+        assertEquals("Json error in map \"b\":2 at end", e2.getMessage());
+        assertEquals("Json error null at end", e3.getMessage());
+        assertEquals("Json error in map \"b\":2 at end", e4.getMessage());
     }
 
     @Test
@@ -278,11 +278,11 @@ public class JsonParserTest {
         var e3 = assertThrows(RuntimeException.class, () -> new JsonParser("[1 2, 3]"));
         var e4 = assertThrows(RuntimeException.class, () -> new JsonParser("[ [1, 2, 3} ]"));
         var e5 = assertThrows(RuntimeException.class, () -> new JsonParser("[ \"a\": 1, \"b\": 2 ]"));
-        assertEquals("For input string: \"]\" near end", e1.getMessage());
-        assertEquals("For input string: \",\" near 2", e2.getMessage());
-        assertEquals("List error after 1 near 2", e3.getMessage());
-        assertEquals("List error after 3 near }", e4.getMessage());
-        assertEquals("List error after a near :", e5.getMessage());
+        assertEquals("Json error For input string: \"]\" at end", e1.getMessage());
+        assertEquals("Json error For input string: \",\"2", e2.getMessage());
+        assertEquals("Json error in list near 12", e3.getMessage());
+        assertEquals("Json error in list near 3}", e4.getMessage());
+        assertEquals("Json error in list near a:", e5.getMessage()); // todo
     }
 
     @Test
@@ -294,13 +294,13 @@ public class JsonParserTest {
         var e5 = assertThrows(RuntimeException.class, () -> new JsonParser("{ \"a\":: 1 }"));
         var e6 = assertThrows(RuntimeException.class, () -> new JsonParser("{ \"a\" 1, \"b\": 2 }"));
         var e7 = assertThrows(RuntimeException.class, () -> new JsonParser("{ 123: 5 }"));
-        assertEquals("Map error after { near 1", e1.getMessage());
-        assertEquals("Map error after \"b\" near ]", e2.getMessage());
-        assertEquals("Map error after } near end", e3.getMessage());
-        assertEquals("Map error after a near ,", e4.getMessage());
-        assertEquals("Map error after \"a\" near 1", e5.getMessage());
-        assertEquals("Map error after \"a\" near \"b\"", e6.getMessage());
-        assertEquals("Map error after 123 near }", e7.getMessage());
+        assertEquals("Json error in map {\"a\":1", e1.getMessage());
+        assertEquals("Json error in map \"b\":2]", e2.getMessage());
+        assertEquals("Json error null at end", e3.getMessage());
+        assertEquals("Json error in map a:1,", e4.getMessage());
+        assertEquals("Json error in map \"a\"::1", e5.getMessage());
+        assertEquals("Json error in map \"a\"1,\"b\"", e6.getMessage());
+        assertEquals("Json error in map 123:5}", e7.getMessage());
     }
 
     @Test

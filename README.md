@@ -15,7 +15,7 @@ since its classes are so small they can just be pasted into a script.
 
 The following missing stdlib functionality is currently offered by Lite Libs:
 * [GNU/POSIX style command line parser](src/main/java/libs/lite/cli) (79 lines)
-* [JSON parser](src/main/java/libs/lite/jsonparser) (59 lines)
+* [JSON parser](src/main/java/libs/lite/jsonparser) (49 lines)
 * [YAML parser](src/main/java/libs/lite/yamlparser) (99 lines)
 
 And some [shell helpers](src/main/java/libs/lite/shellhelpers) including ANSI colors.
@@ -63,7 +63,7 @@ The second way is almost the same as the first but two things have changed:
   java (it can be without an extension or something like `.jsh`)
 
 ```java
-#!/usr/bin/env -S java --source 17
+#!/usr/bin/env -S java --source 21
 
 // <stdlib imports hidden>
 
@@ -95,7 +95,7 @@ Run it like this
 
 **Cons**
 - Only partial support in IntelliJ for java shell scripts, no debugging
-- Must be run with `java --source 17 script.jsh config.json` on Windows systems
+- Must be run with `java --source 21 script.jsh config.json` on Windows systems
   without a *nix environment that recognises the shebang
 
 __A good idea is to develop your script as plain java scripting, and then add the
